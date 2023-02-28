@@ -6,6 +6,8 @@ public class Marble : MonoBehaviour
 {
     private const float YLowerBound = -1.5f;
 
+    private const float centerRotationOffset = 35f;
+
     private Rigidbody rb;
 
     private void Awake()
@@ -30,7 +32,11 @@ public class Marble : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        //TODO: Add a compare tag and if it hit a barrier then make the direction of the force be towards the center with minor variation
+        if (collision.gameObject.CompareTag("Barrier"))
+        {
+            AddForceTowardsCenter();
+            return;
+        }
 
         AddRandomForce();
     }
@@ -41,7 +47,19 @@ public class Marble : MonoBehaviour
         var direction = new Vector3(Random.Range(-1f, 1f), 0f, Random.Range(-1f, 1f));
 
         //Get random speed
-        var speed = Random.Range(150f, 500f);
+        var speed = Random.Range(250f, 700f);
+
+        //Add force to move cell
+        rb.AddForce(direction.normalized * speed);
+    }
+
+    public void AddForceTowardsCenter()
+    {
+        //Get random direction
+        var direction = Vector3.zero - new Vector3(transform.position.x, 0, transform.position.z);
+
+        //Get random speed
+        var speed = Random.Range(250f, 700f);
 
         //Add force to move cell
         rb.AddForce(direction.normalized * speed);

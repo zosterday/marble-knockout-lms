@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-//TODOs: Fix marbles hitting barriers by doing the todo in the marble class
-// Add the start menu
+//TODOs:
+// Add active marble count to sim scene
 // Add an ending screen with the winner
 // Make the marbles spawn with different colors and maybe textures 
 // Add any other final details
@@ -20,7 +20,7 @@ public class GameManager : MonoBehaviour
 
     private const string BarrierTag = "Barrier";
 
-    private const float BarrierRemovalInterval = 2f;
+    private const float BarrierRemovalInterval = 1f;
 
     private int activeMarbleCount;
 
