@@ -20,15 +20,16 @@ public class StartMenuManager : MonoBehaviour
 
     public void StartGame()
     {
-        SceneManager.LoadScene(SimulationScene);
-
         if (!int.TryParse(marbleSpawnCountInput.text, out var marbleSpawnCount))
         {
             marbleSpawnCount = DefaultMarbleSpawnCount;
         }
 
         marbleSpawnCount = Mathf.Min(marbleSpawnCount, DefaultMarbleSpawnCount);
+        marbleSpawnCount = Mathf.Max(marbleSpawnCount, 1);
 
         StateMachine.MarbleSpawnCount = marbleSpawnCount;
+
+        SceneManager.LoadScene(SimulationScene);
     }
 }
