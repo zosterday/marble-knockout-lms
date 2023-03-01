@@ -3,13 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-//TODOs:
-// Add active marble count to sim scene
-// Add an ending screen with the winner
-// Make the marbles spawn with different colors and maybe textures 
-// Add any other final details
-
-
 public class GameManager : MonoBehaviour
 {
     private const float xSpawnBound = 7f;
@@ -21,6 +14,15 @@ public class GameManager : MonoBehaviour
     private const string BarrierTag = "Barrier";
 
     private const float BarrierRemovalInterval = 1f;
+
+    [SerializeField]
+    private List<Color> colors;
+
+    [SerializeField]
+    private List<Texture> textures;
+
+    [SerializeField]
+    private GameObject endGamePanel;
 
     private int activeMarbleCount;
 
@@ -39,6 +41,8 @@ public class GameManager : MonoBehaviour
 
     private static GameManager instance;
 
+    private bool isSimActive;
+
     [SerializeField]
     private GameObject marblePrefab;
 
@@ -46,25 +50,55 @@ public class GameManager : MonoBehaviour
 
     private readonly List<GameObject> marbles = new();
 
+    private readonly List<ColorTexturePair> colorTexturePairs = new();
+
     private void Awake()
     {
+        isSimActive = false;
         instance = this;
 
         barriers = GameObject.FindGameObjectsWithTag(BarrierTag).ToList();
 
+        CreateColorTexturePairs();
         SpawnMarbles();
     }
 
     // Start is called before the first frame update
     void Start()
     {
+        isSimActive = true;
         InvokeRepeating(nameof(RemoveBarrier), 1f, BarrierRemovalInterval);
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        if (!isSimActive)
+        {
+            return;
+        }
+
+        if (activeMarbleCount == 1 && marbles.Count == 1)
+        {
+            isSimActive = false;
+            EndGame();
+        }
+    }
+
+    private void CreateColorTexturePairs()
+    {
+        foreach (var color in colors)
+        {
+            foreach (var texture in textures)
+            {
+                var colorTexturePair = new ColorTexturePair()
+                {
+                    Color = color,
+                    Texture = texture,
+                };
+                colorTexturePairs.Add(colorTexturePair);
+            }
+        }
     }
 
     private void SpawnMarbles()
@@ -83,6 +117,8 @@ public class GameManager : MonoBehaviour
         }
     }
 
+
+
     private bool TrySpawnMarble()
     {
         // Generate Random Spawn Position
@@ -99,6 +135,14 @@ public class GameManager : MonoBehaviour
 
         // Instantiate marble prefab
         var marble = Instantiate(marblePrefab, spawnPos, Quaternion.identity);
+        var renderer = marble.GetComponent<Renderer>();
+
+        var randIndex = Random.Range(0, colorTexturePairs.Count);
+        var colorTexturePair = colorTexturePairs[randIndex];
+        colorTexturePairs.RemoveAt(randIndex);
+        renderer.material.color = colorTexturePair.Color;
+        renderer.material.mainTexture = colorTexturePair.Texture;
+
 
         // Add marble to marbles list
         marbles.Add(marble);
@@ -125,5 +169,18 @@ public class GameManager : MonoBehaviour
         gameObject.SetActive(false);
         marbles.Remove(gameObject);
         activeMarbleCount--;
+    }
+
+    private void EndGame()
+    {
+        endGamePanel.SetActive(true);
+        marbles[0].GetComponent<Marble>().DisplayWinner();
+    }
+
+    private struct ColorTexturePair
+    {
+        public Color Color;
+
+        public Texture Texture;
     }
 }
