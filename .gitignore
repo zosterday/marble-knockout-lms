@@ -58,6 +58,6 @@ sysinfo.txt
 # Crashlytics generated file
 crashlytics-build.properties
 
-MarbleKnockoutLMS/Library/*
-MarbleKnockoutLMS/Logs/*
-MarbleKnockoutLMS/Temp/*
+Marble Knockout LMS/Library/*
+Marble Knockout LMS/Logs/*
+Marble Knockout LMS/Temp/*
