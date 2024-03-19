@@ -66,7 +66,7 @@ public class Marble : MonoBehaviour
         var direction = new Vector3(Random.Range(-1f, 1f), 0f, Random.Range(-1f, 1f));
 
         //Get random speed
-        var speed = Random.Range(350f, 700f);
+        var speed = Random.Range(250f, 600f);
 
         //Add force to move cell
         rb.AddForce(direction.normalized * speed);
@@ -78,7 +78,7 @@ public class Marble : MonoBehaviour
         var direction = Vector3.zero - new Vector3(transform.position.x, 0, transform.position.z);
 
         //Get random speed
-        var speed = Random.Range(350f, 700f);
+        var speed = Random.Range(250f, 600f);
 
         //Add force to move cell
         rb.AddForce(direction.normalized * speed);
