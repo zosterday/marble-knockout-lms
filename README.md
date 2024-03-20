@@ -4,7 +4,7 @@ Welcome to the **Marble Knockout Simulation** project!
 
 ## Description
 
-The **Marble Knockout Simulation** is a 2d Unity simulation. The simulation spawns bouncy marbles that bounce around a platform. The barriers keeping the marbles on the platform are removed and the last marble on the platform at the end is the winner.
+The **Marble Knockout Simulation** is a 3d Unity simulation. The simulation spawns bouncy marbles that bounce around a platform. The barriers keeping the marbles on the platform are removed and the last marble on the platform at the end is the winner.
 
 ## Demo Video
 
